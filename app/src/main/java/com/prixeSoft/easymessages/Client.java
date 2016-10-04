@@ -10,8 +10,6 @@ import java.net.Socket;
  */
 public class Client  {
 
-    private ObjectInputStream streamInput;
-    public ObjectOutputStream streamOutput;
     private Socket socket;
     boolean online = false;
 
@@ -20,7 +18,6 @@ public class Client  {
     private Messaging msgActivity ;
     boolean getName=false;
     String error;
-
 
     Client(String server, int port, String username, Messaging msgActivity) {
         this.server = server;
@@ -97,10 +94,6 @@ public class Client  {
     //Disconnect implementation
     public void disconnect() {
         try {
-            if (streamInput != null)
-                streamInput.close();
-            if (streamOutput != null)
-                streamOutput.close();
             if (socket != null)
                 socket.close();
         } catch (Exception e) {
@@ -140,13 +133,12 @@ public class Client  {
                     //requesting verified username from the server
                     try {
                         whoAmI();
-                        // Client.this.streamOutput.writeObject(writeName.build());
-                        // Client.this.streamOutput.writeObject(username);
+
                         if (getName == false) {
                             getName = true;
+                            //Read server confirmed username
                             ComProtobuf.msg readName = ComProtobuf.msg.parseDelimitedFrom(socket.getInputStream());
-                            // whoAmI();
-                            // username = (String) streamInput.readObject();
+
                             username = readName.getTo();
                             msgActivity.runOnUiThread(new Runnable() {
                                 @Override
@@ -183,19 +175,21 @@ public class Client  {
             while (true) {
                 try {
                     ComProtobuf.msg readMsg = ComProtobuf.msg.parseDelimitedFrom(socket.getInputStream());
-                    if(readMsg.getType().getNumber() == 1) {
-                        final String msg = readMsg.getMessage();
-                     //   final String msg = (String) streamInput.readObject();
-                        msgActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Client.this.msgActivity.append(msg);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                    if(readMsg != null ) {
+                        if (readMsg.getType().getNumber() == 1) {
+                            final String msg = readMsg.getMessage();
+
+                            msgActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Client.this.msgActivity.append(msg);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
 
                 } catch (IOException e) {

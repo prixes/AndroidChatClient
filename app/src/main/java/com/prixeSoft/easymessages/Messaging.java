@@ -42,7 +42,7 @@ public class Messaging extends Activity {
     ProgressDialog dialog;
     AlertDialog.Builder dlgAlert;
 
-    String username, address, port, mgsAppend;
+    String username, address, port;
 
     private static String fileName="chatLog.txt";
     private static String folder = "/EasyMsg/";
