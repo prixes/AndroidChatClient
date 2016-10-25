@@ -11,7 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.prixes.easymessages.Messaging"
+    tools:context="com.prixeSoft.easymessages.Messaging"
     >
 
     <LinearLayout
@@ -28,10 +28,11 @@
             android:layout_height="wrap_content"
             android:text="@string/lblUsername"
             android:id="@+id/lblUsername"
-            android:layout_weight="0.72"
+            android:layout_weight="0.89"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginRight="5dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -45,8 +46,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:gravity="center_horizontal"
->
+    android:gravity="center_horizontal">
 
 
         <ScrollView
@@ -56,41 +56,36 @@
                 android:windowSoftInputMode="adjustResize"
                 android:scrollbars="vertical"
                 android:fillViewport="true"
-            android:layout_marginBottom="25dp">
+            android:layout_marginBottom="35dp">
 
 
-                <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:windowSoftInputMode="adjustResize"
-                    android:layout_gravity="bottom"
-                    android:scrollbars="vertical">
+        </ScrollView>
 
-                    <TextView
+        <TextView
 
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/txtChatLog"
-                        android:singleLine="false"
-                        android:maxLines = "100"
-                        android:scrollbars = "vertical"
-                        android:textSize="18sp"
-                        android:layout_gravity="bottom"
-                        android:scrollHorizontally="false"
-                        android:gravity="bottom"
-                        android:layout_alignParentBottom="true"
-                        android:textColor="#2e2e2e"
-                        android:lineSpacingExtra="5dp"/>
-                </RelativeLayout>
-            </ScrollView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/txtChatLog"
+            android:singleLine="false"
+            android:maxLines = "100"
+            android:scrollbars = "vertical"
+            android:textSize="18sp"
+            android:layout_gravity="bottom"
+            android:scrollHorizontally="false"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/accent_material_dark"
+            android:lineSpacingExtra="5dp"
+            android:layout_marginBottom="40dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:weightSum="1"
             android:gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true">
 
             <EditText
@@ -103,7 +98,7 @@
                 />
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:text="@string/btnSend"
                 android:id="@+id/btnSend"
@@ -111,11 +106,13 @@
                 android:longClickable="false"
                 android:src="@drawable/card"
                 android:contentDescription="@string/imageButton"
-                android:background="@null"/>
+                android:background="@null"
+                android:scaleType="fitXY" />
 
 
         </LinearLayout>
 
 
     </RelativeLayout>
-    </LinearLayout>
+
+</LinearLayout>

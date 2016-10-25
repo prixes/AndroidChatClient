@@ -18,6 +18,6 @@
     <string name="btnSend">Send</string>
     <string name="hintMgsLine">Write a message ...</string>
     <string name="btnOnline">Who is online</string>
-    <string name="lblUsername">Logged as:</string>
+    <string name="lblUsername">As:</string>
     <string name="imageButton">whut?</string>
 </resources>

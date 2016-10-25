@@ -143,7 +143,7 @@ public class Client  {
                             msgActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Client.this.msgActivity.lblUsername.setText("Loged as: " + username);
+                                    Client.this.msgActivity.lblUsername.setText(username);
                                 }
                             });
                         }
