@@ -1,4 +1,4 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -41,12 +41,90 @@
             android:id="@+id/btnOnline" />
     </LinearLayout>
 
+
+
+        <HorizontalScrollView
+            android:id="@+id/hsv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:fillViewport="true"
+            android:measureAllChildren="false"
+            android:scrollbars="none" >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp">
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/general"
+            android:id="@+id/btnGeneral"
+
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat1"
+            android:id="@+id/btnChat1"
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat2"
+            android:id="@+id/btnChat2"
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat3"
+            android:id="@+id/btnChat3"
+
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat4"
+            android:id="@+id/btnChat4"
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat5"
+            android:id="@+id/btnChat5"
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plus"
+            android:id="@+id/btnPlus"
+            android:background="@android:drawable/dialog_holo_dark_frame" />
+
+            </LinearLayout>
+
+    </HorizontalScrollView>
+
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+        android:layout_marginTop="120dp">
 
 
         <ScrollView
@@ -115,4 +193,4 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

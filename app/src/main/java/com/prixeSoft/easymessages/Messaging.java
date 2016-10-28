@@ -3,12 +3,14 @@ package com.prixeSoft.easymessages;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -43,13 +45,10 @@ public class Messaging extends Activity {
     AlertDialog.Builder dlgAlert;
 
     String username, address, port;
-
     private static String fileName="chatLog.txt";
-    private static String folder = "/EasyMsg/";
-    FileOutputStream fos;
-    File root,file;
-    FileWriter writer;
+    File file;
     FileOutputStream outputStream = null;
+
 
     @Override
     public void onBackPressed()
@@ -168,13 +167,14 @@ public class Messaging extends Activity {
 
 
     //not implemented
-    private void triggerNotification(String s) {
+    public void triggerNotification(String from ,String message) {
+        if(this.hasWindowFocus()) return;
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.card)
-                        .setContentTitle("EasyMsg")
-                        .setContentText(s);
-
+                        .setContentTitle(from)
+                        .setContentText(message);
+                if(from.equals("")) mBuilder.setContentTitle("General chat");
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());

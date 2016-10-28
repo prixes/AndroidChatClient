@@ -1,5 +1,10 @@
 package com.prixeSoft.easymessages;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.support.v4.app.NotificationCompat;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,6 +17,8 @@ public class Client  {
 
     private Socket socket;
     boolean online = false;
+
+    String message,to;
 
     private String server, username;
     private int port;
@@ -35,17 +42,26 @@ public class Client  {
 
     //send messages to server
     void sendMessage(String msg) {
-
         ComProtobuf.msg.Builder prepMsg = ComProtobuf.msg.newBuilder();
+    if(msg.startsWith("/w")) {
+        message = msg.substring(3);
+        to = message.substring(0,message.indexOf(" "));
+        message = message.substring(message.indexOf(" ")+1);
+
+        prepMsg.setTypeValue(4);
+        prepMsg.setFrom(username);
+        prepMsg.setTo(to);
+        prepMsg.setMessage(message);
+    } else {
         prepMsg.setTypeValue(1);
         prepMsg.setFrom(username);
         prepMsg.setMessage(msg);
+    }
         try {
             prepMsg.build().writeDelimitedTo(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     //sending log out message to server
@@ -101,6 +117,8 @@ public class Client  {
             errorAlert();
         }
     }
+
+
 
     //error alert box while in messaging activity
     void errorAlert(){
@@ -174,24 +192,28 @@ public class Client  {
         public void run() {
             while (true) {
                 try {
-                    ComProtobuf.msg readMsg = ComProtobuf.msg.parseDelimitedFrom(socket.getInputStream());
+                    final ComProtobuf.msg readMsg = ComProtobuf.msg.parseDelimitedFrom(socket.getInputStream());
                     if(readMsg != null ) {
+                        final String msg;
                         if (readMsg.getType().getNumber() == 1) {
-                            final String msg = readMsg.getMessage();
+                            msg = readMsg.getMessage(); // its broadcast
+                            }else { //its pm
+                            msg = readMsg.getMessage();
+                        }
 
-                            msgActivity.runOnUiThread(new Runnable() {
+
+                        msgActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         Client.this.msgActivity.append(msg);
+                                        Client.this.msgActivity.triggerNotification(readMsg.getFrom(),msg);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 }
                             });
-                        }
                     }
-
                 } catch (IOException e) {
                     error = "Connection lost please log again";
                     errorAlert();
@@ -200,4 +222,5 @@ public class Client  {
             }
         }
     }
+
 }
