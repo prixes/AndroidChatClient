@@ -11,8 +11,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,15 +42,22 @@ public class Messaging extends Activity {
     EditText msgLine;
     TextView txtChatLog, lblUsername;
     ImageButton btnSend;
-    Button btnOnline;
+    Button btnOnline,btnPlus ;
+    Button btnChat[]= new Button[5];
     ProgressDialog dialog;
     AlertDialog.Builder dlgAlert;
+
+    //new stuff !!!
+    String chatWith;
+    String chatPrefix="";
+    int curChat= -1;
+    //new stuff !!!
 
     String username, address, port;
     private static String fileName="chatLog.txt";
     File file;
     FileOutputStream outputStream = null;
-
+    int openChats= 0;
 
     @Override
     public void onBackPressed()
@@ -75,6 +84,13 @@ public class Messaging extends Activity {
 
         lblUsername = (TextView) findViewById(R.id.lblUsername);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
+        btnPlus = (Button) findViewById(R.id.btnPlus);
+        btnChat[0] = (Button) findViewById(R.id.btnChat1);
+        btnChat[1] = (Button) findViewById(R.id.btnChat2);
+        btnChat[2] = (Button) findViewById(R.id.btnChat3);
+        btnChat[3] = (Button) findViewById(R.id.btnChat4);
+        btnChat[4] = (Button) findViewById(R.id.btnChat5);
+
         ScrollView sv = (ScrollView)findViewById(R.id.scroll);
         sv.setEnabled(false);
 
@@ -124,15 +140,21 @@ public class Messaging extends Activity {
 
 
         //buttons onClick functions
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    startNewChat();
+
+            }});
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(! msgLine.getText().toString().isEmpty() ){
-                client.sendMessage(msgLine.getText().toString());
-                msgLine.setText("");
+                    client.sendMessage( chatPrefix + msgLine.getText().toString());
+                    msgLine.setText("");
                 }
             }});
-
         btnOnline = (Button) findViewById(R.id.btnOnline);
         btnOnline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +162,49 @@ public class Messaging extends Activity {
 
                 client.whoIsOnline();
             }});
+    }
+
+    void startNewChat(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("You want to chat with:");
+        AlertDialog dialog;
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                chatWith= input.getText().toString();
+                if(openChats<5) {
+                    btnChat[openChats].setVisibility(View.VISIBLE);
+                    btnChat[openChats].setText(chatWith);
+                    chatPrefix = "/w " + chatWith + " ";
+                    curChat=openChats;
+                    txtChatLog.setText("");
+                    openChats += 1;
+
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog = builder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        builder.show();
+
+        input.requestFocus();
     }
 
     void checkLogFile() throws IOException {
@@ -166,7 +231,7 @@ public class Messaging extends Activity {
     }
 
 
-    //not implemented
+    // all the notification logic
     public void triggerNotification(String from ,String message) {
         if(this.hasWindowFocus()) return;
         NotificationCompat.Builder mBuilder =

@@ -132,6 +132,9 @@ public class Client  {
         });
     }
 
+
+
+    //thread that handles the messages
     class SocketHandleThread extends Thread {
 
         public void run() {

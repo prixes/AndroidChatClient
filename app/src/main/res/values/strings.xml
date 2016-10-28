@@ -20,11 +20,14 @@
     <string name="btnOnline">Who is online</string>
     <string name="lblUsername">As:</string>
     <string name="imageButton">whut?</string>
-    <string name="chat1">chat1</string>
+
     <string name="general">General</string>
     <string name="plus">+</string>
+
     <string name="chat5">chat5</string>
     <string name="chat4">chat4</string>
     <string name="chat3">chat3</string>
     <string name="chat2">chat2</string>
+    <string name="chat1">chat1</string>
+    <string name="address">Prixesoft.com</string>
 </resources>
