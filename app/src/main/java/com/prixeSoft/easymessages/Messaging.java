@@ -43,13 +43,16 @@ public class Messaging extends Activity {
     TextView txtChatLog, lblUsername;
     ImageButton btnSend;
     Button btnOnline,btnPlus ;
-    Button btnChat[]= new Button[6];
     ProgressDialog dialog;
     AlertDialog.Builder dlgAlert;
 
     //new stuff !!!
+    Button btnChat[] = new Button[6];
+    String chatLog[] =      {"","","","","",""}; //x6 strings
+    String currentChats[] = {"","","","","",""}; //x6 strings
+
     String chatWith;
-    String chatPrefix="";
+    String chatPrefix = "";
     int curChat= 0;
     //new stuff !!!
 
@@ -145,51 +148,91 @@ public class Messaging extends Activity {
             @Override
             public void onClick(View view) {
                 chatPrefix="";
+                txtChatLog.setText(chatLog[0]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[0].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=0;
-            }});
+            }
+        });
+
         btnChat[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatPrefix = "/w " + btnChat[1].getText().toString() +" ";
+                txtChatLog.setText(chatLog[1]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[1].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=1;
             }});
+        btnChat[1].setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                btnChat[1].setBackgroundResource( R.drawable.button_background);
+                btnChat[1].setVisibility(View.GONE);
+                if(curChat == 1) btnChat[curChat - 1].callOnClick();
+                return true;
+            }
+        });
         btnChat[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatPrefix= "/w " + btnChat[2].getText().toString() +" ";
+                txtChatLog.setText(chatLog[2]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[2].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=2;
             }});
+        btnChat[2].setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                deleteChatTab(2);
+                return true;
+            }
+        });
         btnChat[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatPrefix= "/w " + btnChat[3].getText().toString() +" ";
+                txtChatLog.setText(chatLog[3]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[3].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=3;
             }});
+        btnChat[3].setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                deleteChatTab(3);
+                return true;
+            }
+        });
         btnChat[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatPrefix= "/w " + btnChat[4].getText().toString() +" ";
+                txtChatLog.setText(chatLog[4]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[4].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=4;
             }});
+
+        btnChat[4].setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                deleteChatTab(4);
+                return true;
+            }
+        });
         btnChat[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chatPrefix= "/w " + btnChat[5].getText().toString() +" ";
+                txtChatLog.setText(chatLog[5]);
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[5].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=5;
             }});
-
+        btnChat[5].setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                deleteChatTab(5);
+                return true;
+            }
+        });
         //buttons onClick functions
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,22 +258,41 @@ public class Messaging extends Activity {
             }});
     }
 
+    void deleteChatTab(int i)
+    {
+       if(curChat==i) btnChat[i].setBackgroundResource( R.drawable.button_background);
+        for(int n=i;n<openChats-1;n++) {
+            chatLog[n]=chatLog[n+1];
+            btnChat[n].setText(currentChats[n+1]);
+            currentChats[n]=currentChats[n+1];
+        }
+
+        if(i == curChat) {curChat=i-1; btnChat[i-1].callOnClick();}
+        chatLog[openChats]= "";
+        btnChat[openChats-1].setVisibility(View.GONE);
+        currentChats[openChats]="";
+        openChats -=1;
+    }
+
+
     void startNewChat(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("You want to chat with:");
         AlertDialog dialog;
 
-// Set up the input
+        // Set up the input
         final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT );
         builder.setView(input);
 
-// Set up the buttons
+        // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 chatWith= input.getText().toString();
+                currentChats[openChats]=chatWith;
+                if(chatWith.contains(" ")) { errorDisplay("Invalid username (contain spaces) !"); return; }
                 if(openChats<6) {
                     btnChat[openChats].setVisibility(View.VISIBLE);
                     btnChat[openChats].setText(chatWith);
@@ -261,15 +323,13 @@ public class Messaging extends Activity {
     }
 
     void startNewChatWith(String name) {
+        for(int i = openChats;i>0 ; i--)
+            if(btnChat[i].getText().equals(name)) return;
         if(openChats<6) {
             chatWith=name;
             btnChat[openChats].setVisibility(View.VISIBLE);
             btnChat[openChats].setText(chatWith);
-            chatPrefix = "/w " + chatWith + " ";
-            btnChat[curChat].setBackgroundResource(R.drawable.button_background);
-            btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
-            curChat = openChats;
-            txtChatLog.setText("");
+            btnChat[openChats].setBackgroundResource(R.drawable.button_on_new_chat);
             openChats += 1;
         }
     }
@@ -294,7 +354,8 @@ public class Messaging extends Activity {
             }
             isr.close ( ) ;
         //append all previous messages
-        txtChatLog.append(datax.toString()) ;
+        chatLog[0]=datax.toString();
+        txtChatLog.append(chatLog[0]) ;
     }
 
 
@@ -313,10 +374,25 @@ public class Messaging extends Activity {
     }
 
 
+    void errorDisplay(String error){
+        new AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
     //Its called by the client class when receives information from the server appending it to
     void append(String str) throws IOException {
-        txtChatLog.append(str);
+        //  k1m koi chat da se obr1shta i da se updateva UI-a
+       // currentChats[curChat]=currentChats[curChat] + str;
+      //  txtChatLog.setText(currentChats[curChat]);
+        //txtChatLog.append(str);
             final int scrollAmount = txtChatLog.getLayout().getLineTop(txtChatLog.getLineCount()) - txtChatLog.getHeight();
             if (scrollAmount > 0)
                 txtChatLog.scrollTo(0, scrollAmount);

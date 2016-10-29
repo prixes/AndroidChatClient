@@ -30,4 +30,5 @@
     <string name="chat2">chat2</string>
     <string name="chat1">chat1</string>
     <string name="address">Prixesoft.com</string>
+    <string name="port">10514</string>
 </resources>

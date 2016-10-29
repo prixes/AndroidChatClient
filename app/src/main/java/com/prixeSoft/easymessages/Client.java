@@ -197,11 +197,19 @@ public class Client  {
                 try {
                     final ComProtobuf.msg readMsg = ComProtobuf.msg.parseDelimitedFrom(socket.getInputStream());
                     if(readMsg != null ) {
-                        final String msg;
+                        final String msg = readMsg.getMessage();
                         if (readMsg.getType().getNumber() == 1) {
-                            msg = readMsg.getMessage(); // its broadcast
+                            ; // its broadcast
+                            Client.this.msgActivity.chatLog[0] += msg;
                             }else { //its pm
-                            msg = readMsg.getMessage();
+                           // Client.this.msgActivity.startNewChatWith(readMsg.getTo());
+                            Client.this.msgActivity.chatLog[0] += msg;
+                           for( int i=1;i<6; i++) {
+                               if(Client.this.msgActivity.currentChats[i] != null)
+                                   if(Client.this.msgActivity.currentChats[i].equals(readMsg.getFrom()) || Client.this.msgActivity.currentChats[i].equals(readMsg.getTo()))
+                                       Client.this.msgActivity.chatLog[i] += msg;
+                           }
+
                         }
 
 
@@ -209,8 +217,13 @@ public class Client  {
                                 @Override
                                 public void run() {
                                     try {
-                                        Client.this.msgActivity.append(msg);
-                                        Client.this.msgActivity.triggerNotification(readMsg.getFrom(),msg);
+                                        if(msgActivity.curChat==0){
+                                            msgActivity.txtChatLog.setText(msgActivity.chatLog[0]);
+                                        } else if (readMsg.getFrom().equals(msgActivity.currentChats[msgActivity.curChat]) || readMsg.getTo().equals(msgActivity.currentChats[msgActivity.curChat])) {
+                                            msgActivity.txtChatLog.setText( msgActivity.chatLog[ msgActivity.curChat]);
+                                        }
+                                        msgActivity.append(msg);
+                                        msgActivity.triggerNotification(readMsg.getFrom(),msg);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
