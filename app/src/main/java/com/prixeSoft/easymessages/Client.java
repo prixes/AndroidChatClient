@@ -47,7 +47,7 @@ public class Client  {
         message = msg.substring(3);
         to = message.substring(0,message.indexOf(" "));
         message = message.substring(message.indexOf(" ")+1);
-
+        Client.this.msgActivity.startNewChatWith(to);
         prepMsg.setTypeValue(4);
         prepMsg.setFrom(username);
         prepMsg.setTo(to);

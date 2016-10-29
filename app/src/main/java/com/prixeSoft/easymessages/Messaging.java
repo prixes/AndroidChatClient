@@ -43,21 +43,21 @@ public class Messaging extends Activity {
     TextView txtChatLog, lblUsername;
     ImageButton btnSend;
     Button btnOnline,btnPlus ;
-    Button btnChat[]= new Button[5];
+    Button btnChat[]= new Button[6];
     ProgressDialog dialog;
     AlertDialog.Builder dlgAlert;
 
     //new stuff !!!
     String chatWith;
     String chatPrefix="";
-    int curChat= -1;
+    int curChat= 0;
     //new stuff !!!
 
     String username, address, port;
     private static String fileName="chatLog.txt";
     File file;
     FileOutputStream outputStream = null;
-    int openChats= 0;
+    int openChats= 1;
 
     @Override
     public void onBackPressed()
@@ -85,11 +85,12 @@ public class Messaging extends Activity {
         lblUsername = (TextView) findViewById(R.id.lblUsername);
         btnSend = (ImageButton) findViewById(R.id.btnSend);
         btnPlus = (Button) findViewById(R.id.btnPlus);
-        btnChat[0] = (Button) findViewById(R.id.btnChat1);
-        btnChat[1] = (Button) findViewById(R.id.btnChat2);
-        btnChat[2] = (Button) findViewById(R.id.btnChat3);
-        btnChat[3] = (Button) findViewById(R.id.btnChat4);
-        btnChat[4] = (Button) findViewById(R.id.btnChat5);
+        btnChat[0] = (Button) findViewById(R.id.btnGeneral);
+        btnChat[1] = (Button) findViewById(R.id.btnChat1);
+        btnChat[2] = (Button) findViewById(R.id.btnChat2);
+        btnChat[3] = (Button) findViewById(R.id.btnChat3);
+        btnChat[4] = (Button) findViewById(R.id.btnChat4);
+        btnChat[5] = (Button) findViewById(R.id.btnChat5);
 
         ScrollView sv = (ScrollView)findViewById(R.id.scroll);
         sv.setEnabled(false);
@@ -139,6 +140,56 @@ public class Messaging extends Activity {
         client.start();
 
 
+
+        btnChat[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix="";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[0].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=0;
+            }});
+        btnChat[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix = "/w " + btnChat[1].getText().toString() +" ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[1].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=1;
+            }});
+        btnChat[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix= "/w " + btnChat[2].getText().toString() +" ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[2].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=2;
+            }});
+        btnChat[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix= "/w " + btnChat[3].getText().toString() +" ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[3].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=3;
+            }});
+        btnChat[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix= "/w " + btnChat[4].getText().toString() +" ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[4].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=4;
+            }});
+        btnChat[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatPrefix= "/w " + btnChat[5].getText().toString() +" ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[5].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=5;
+            }});
+
         //buttons onClick functions
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,10 +231,12 @@ public class Messaging extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 chatWith= input.getText().toString();
-                if(openChats<5) {
+                if(openChats<6) {
                     btnChat[openChats].setVisibility(View.VISIBLE);
                     btnChat[openChats].setText(chatWith);
                     chatPrefix = "/w " + chatWith + " ";
+                    btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                    btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
                     curChat=openChats;
                     txtChatLog.setText("");
                     openChats += 1;
@@ -205,6 +258,20 @@ public class Messaging extends Activity {
         builder.show();
 
         input.requestFocus();
+    }
+
+    void startNewChatWith(String name) {
+        if(openChats<6) {
+            chatWith=name;
+            btnChat[openChats].setVisibility(View.VISIBLE);
+            btnChat[openChats].setText(chatWith);
+            chatPrefix = "/w " + chatWith + " ";
+            btnChat[curChat].setBackgroundResource(R.drawable.button_background);
+            btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
+            curChat = openChats;
+            txtChatLog.setText("");
+            openChats += 1;
+        }
     }
 
     void checkLogFile() throws IOException {
@@ -249,7 +316,7 @@ public class Messaging extends Activity {
 
     //Its called by the client class when receives information from the server appending it to
     void append(String str) throws IOException {
-            txtChatLog.append(str);
+        txtChatLog.append(str);
             final int scrollAmount = txtChatLog.getLayout().getLineTop(txtChatLog.getLineCount()) - txtChatLog.getHeight();
             if (scrollAmount > 0)
                 txtChatLog.scrollTo(0, scrollAmount);

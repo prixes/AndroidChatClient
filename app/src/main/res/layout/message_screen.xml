@@ -40,7 +40,8 @@
             android:background="@drawable/button_background"
             android:paddingRight="5dp"
             android:paddingLeft="5dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
     </LinearLayout>
 
 
@@ -62,10 +63,11 @@
             android:text="@string/general"
             android:id="@+id/btnGeneral"
             android:textAllCaps="false"
-            android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:layout_marginRight="5dp" />
+            android:background="@drawable/button_on_foreground"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -75,10 +77,11 @@
             android:id="@+id/btnChat1"
             android:textAllCaps="false"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="gone"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -88,10 +91,11 @@
             android:id="@+id/btnChat2"
             android:textAllCaps="false"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="gone"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -101,10 +105,11 @@
             android:id="@+id/btnChat3"
             android:textAllCaps="false"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="gone"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -114,10 +119,11 @@
             android:id="@+id/btnChat4"
             android:textAllCaps="false"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="gone"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -127,10 +133,11 @@
             android:id="@+id/btnChat5"
             android:textAllCaps="false"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:visibility="gone"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -139,8 +146,9 @@
             android:text="@string/plus"
             android:id="@+id/btnPlus"
             android:background="@drawable/button_background"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" />
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:textColor="@color/accent_material_dark" />
 
             </LinearLayout>
         </HorizontalScrollView>
