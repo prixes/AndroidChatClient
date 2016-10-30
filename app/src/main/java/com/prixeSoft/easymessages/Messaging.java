@@ -94,7 +94,7 @@ public class Messaging extends Activity {
         ScrollView sv = (ScrollView)findViewById(R.id.scroll);
         sv.setEnabled(false);
 
-        //retrieving the information from loginActivity
+        // Retrieving the information from loginActivity
         final Intent intent = getIntent();
         address  = intent.getExtras().getString("address");
         port     = intent.getExtras().getString("port");;
@@ -110,14 +110,14 @@ public class Messaging extends Activity {
         }
 
 
-        //Connecting dialog
+        // Connecting dialog
         dialog=new ProgressDialog(this);
         dialog.setMessage("Connecting");
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
         dlgAlert  = new AlertDialog.Builder(this);
 
-        //Error alert box
+        // Error alert box
         dlgAlert.setTitle("Connection problem please try again !");
         dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -127,124 +127,20 @@ public class Messaging extends Activity {
         dlgAlert.setCancelable(true);
 
         //connecting dialog show
-        dialog.show();
+        //dialog.show();  making problems :/
         try {                    //Prepare file of last messages received
             checkLogFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //Ready to start connection to server
+        // Ready to start connection to server
         client = new Client( address, Integer.parseInt(port) ,username,this);
         client.start();
 
         BtnListeners btnListeners= new BtnListeners(this);
 
-
-        /*
-        btnChat[0].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix="";
-                txtChatLog.setText(chatLog[0]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[0].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=0;
-            }
-        });
-
-        btnChat[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix = "/w " + btnChat[1].getText().toString() +" ";
-                txtChatLog.setText(chatLog[1]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[1].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=1;
-                chatWith=currentChats[1];
-            }});
-        btnChat[1].setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                btnChat[1].setBackgroundResource( R.drawable.button_background);
-                btnChat[1].setVisibility(View.GONE);
-                if(curChat == 1) btnChat[curChat - 1].callOnClick();
-                return true;
-            }
-        });
-        btnChat[2].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix= "/w " + btnChat[2].getText().toString() +" ";
-                txtChatLog.setText(chatLog[2]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[2].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=2;
-                chatWith=currentChats[2];
-            }});
-        btnChat[2].setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                deleteChatTab(2);
-                return true;
-            }
-        });
-        btnChat[3].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix= "/w " + btnChat[3].getText().toString() +" ";
-                txtChatLog.setText(chatLog[3]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[3].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=3;
-                chatWith=currentChats[4];
-            }});
-        btnChat[3].setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                deleteChatTab(3);
-                return true;
-            }
-        });
-        btnChat[4].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix= "/w " + btnChat[4].getText().toString() +" ";
-                txtChatLog.setText(chatLog[4]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[4].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=4;
-                chatWith=currentChats[4];
-            }});
-
-        btnChat[4].setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                deleteChatTab(4);
-                return true;
-            }
-        });
-        btnChat[5].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatPrefix= "/w " + btnChat[5].getText().toString() +" ";
-                txtChatLog.setText(chatLog[5]);
-                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                btnChat[5].setBackgroundResource(R.drawable.button_on_foreground);
-                curChat=5;
-                chatWith=currentChats[5];
-            }});
-        btnChat[5].setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                deleteChatTab(5);
-                return true;
-            }
-        });
-        //buttons onClick functions
-        btnPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    startNewChat();
-
-            }});
-        */
-
+        // Listeners that require client class
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -264,28 +160,24 @@ public class Messaging extends Activity {
 
 
 
-
+// Delete tab actions
     void deleteChatTab(int i)
     {
-
         for(int n=i;n<openChats;n++) {
             chatLog[n]=chatLog[n+1];
             btnChat[n].setText(currentChats[n+1]);
             currentChats[n]=currentChats[n+1];
         }
 
-
-       // btnChat[curChat].setBackgroundResource( R.drawable.button_background);
         if(curChat>i) btnChat[curChat-1].callOnClick(); else btnChat[curChat].callOnClick();
         chatWith=currentChats[curChat];
         btnChat[openChats].setVisibility(View.GONE);
         chatLog[openChats]= "";
         currentChats[openChats]="";
         openChats -=1;
-
     }
 
-
+// Start new chat tab open
     void startNewChat(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("You want to chat with:");
@@ -315,10 +207,8 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=openChats;
+                chatLog[openChats]="";
                 txtChatLog.setText("");
-
-
-
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -335,6 +225,7 @@ public class Messaging extends Activity {
         input.requestFocus();
     }
 
+    // When user PM some one througth general chat "/w name message"
     void startNewChat(String name) {
         for(int i = openChats;i>0 ; i--)
             if(btnChat[i].getText().equals(name)) return;
@@ -348,6 +239,7 @@ public class Messaging extends Activity {
         }
     }
 
+    // Check if there is log file in the system
     void checkLogFile() throws IOException {
         file = new File(fileName);
         if(!file.exists()) {
@@ -356,6 +248,7 @@ public class Messaging extends Activity {
             outputStream = openFileOutput(fileName,  MODE_APPEND);
     }
 
+    // Loading the chat file
     public void loadChatLog() throws IOException {
         StringBuffer datax = new StringBuffer("");
             FileInputStream fIn = openFileInput ( "chatLog.txt" ) ;
@@ -372,8 +265,7 @@ public class Messaging extends Activity {
         txtChatLog.append(chatLog[0]) ;
     }
 
-
-    // all the notification logic
+    // All the notification logic
     public void triggerNotification(String from ,String message) {
         if(this.hasWindowFocus()) return;
         NotificationCompat.Builder mBuilder =
@@ -387,7 +279,7 @@ public class Messaging extends Activity {
         mNotificationManager.notify(1, mBuilder.build());
     }
 
-
+    // Error display feature
     void errorDisplay(String error){
         new AlertDialog.Builder(this)
                 .setTitle("Error")
@@ -403,10 +295,6 @@ public class Messaging extends Activity {
 
     //Its called by the client class when receives information from the server appending it to
     void append(String str) throws IOException {
-        //  k1m koi chat da se obr1shta i da se updateva UI-a
-       // currentChats[curChat]=currentChats[curChat] + str;
-      //  txtChatLog.setText(currentChats[curChat]);
-        //txtChatLog.append(str);
             final int scrollAmount = txtChatLog.getLayout().getLineTop(txtChatLog.getLineCount()) - txtChatLog.getHeight();
             if (scrollAmount > 0)
                 txtChatLog.scrollTo(0, scrollAmount);

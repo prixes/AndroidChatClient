@@ -15,16 +15,12 @@ import java.net.Socket;
  */
 public class Client  {
 
-    private Socket socket;
-    boolean online = false;
-
-    String message,to;
-
-    private String server, username;
+    boolean online = false , getName=false;
+    private String server, username,message,to,error;
     private int port;
+
+    private Socket socket;
     private Messaging msgActivity ;
-    boolean getName=false;
-    String error;
 
     Client(String server, int port, String username, Messaging msgActivity) {
         this.server = server;
@@ -43,7 +39,7 @@ public class Client  {
     //send messages to server
     void sendMessage(String msg) {
         ComProtobuf.msg.Builder prepMsg = ComProtobuf.msg.newBuilder();
-    if(msg.startsWith("/w")) {
+    if(msg.startsWith("/w")) {  // It's PM
         message = msg.substring(3);
         to = message.substring(0,message.indexOf(" "));
         message = message.substring(message.indexOf(" ")+1);
@@ -52,7 +48,7 @@ public class Client  {
         prepMsg.setFrom(username);
         prepMsg.setTo(to);
         prepMsg.setMessage(message);
-    } else {
+    } else {  // Broadcast message
         prepMsg.setTypeValue(1);
         prepMsg.setFrom(username);
         prepMsg.setMessage(msg);
