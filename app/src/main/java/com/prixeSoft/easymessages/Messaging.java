@@ -3,14 +3,12 @@ package com.prixeSoft.easymessages;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -21,13 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.prixeSoft.easymessages.R;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -49,18 +44,19 @@ public class Messaging extends Activity {
     //new stuff !!!
     Button btnChat[] = new Button[6];
     String chatLog[] =      {"","","","","",""}; //x6 strings
-    String currentChats[] = {"","","","","",""}; //x6 strings
-
+    String currentChats[] = {"general","","","","",""}; //x6 strings
     String chatWith;
     String chatPrefix = "";
     int curChat= 0;
+    int openChats= 0;
     //new stuff !!!
+
 
     String username, address, port;
     private static String fileName="chatLog.txt";
     File file;
     FileOutputStream outputStream = null;
-    int openChats= 1;
+
 
     @Override
     public void onBackPressed()
@@ -142,8 +138,10 @@ public class Messaging extends Activity {
         client = new Client( address, Integer.parseInt(port) ,username,this);
         client.start();
 
+        BtnListeners btnListeners= new BtnListeners(this);
 
 
+        /*
         btnChat[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +161,7 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[1].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=1;
+                chatWith=currentChats[1];
             }});
         btnChat[1].setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -180,6 +179,7 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[2].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=2;
+                chatWith=currentChats[2];
             }});
         btnChat[2].setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -195,6 +195,7 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[3].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=3;
+                chatWith=currentChats[4];
             }});
         btnChat[3].setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -210,6 +211,7 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[4].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=4;
+                chatWith=currentChats[4];
             }});
 
         btnChat[4].setOnLongClickListener(new View.OnLongClickListener() {
@@ -226,6 +228,7 @@ public class Messaging extends Activity {
                 btnChat[curChat].setBackgroundResource( R.drawable.button_background);
                 btnChat[5].setBackgroundResource(R.drawable.button_on_foreground);
                 curChat=5;
+                chatWith=currentChats[5];
             }});
         btnChat[5].setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -240,6 +243,7 @@ public class Messaging extends Activity {
                     startNewChat();
 
             }});
+        */
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,20 +262,27 @@ public class Messaging extends Activity {
             }});
     }
 
+
+
+
     void deleteChatTab(int i)
     {
-       if(curChat==i) btnChat[i].setBackgroundResource( R.drawable.button_background);
-        for(int n=i;n<openChats-1;n++) {
+
+        for(int n=i;n<openChats;n++) {
             chatLog[n]=chatLog[n+1];
             btnChat[n].setText(currentChats[n+1]);
             currentChats[n]=currentChats[n+1];
         }
 
-        if(i == curChat) {curChat=i-1; btnChat[i-1].callOnClick();}
+
+       // btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+        if(curChat>i) btnChat[curChat-1].callOnClick(); else btnChat[curChat].callOnClick();
+        chatWith=currentChats[curChat];
+        btnChat[openChats].setVisibility(View.GONE);
         chatLog[openChats]= "";
-        btnChat[openChats-1].setVisibility(View.GONE);
         currentChats[openChats]="";
         openChats -=1;
+
     }
 
 
@@ -291,19 +302,21 @@ public class Messaging extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 chatWith= input.getText().toString();
-                currentChats[openChats]=chatWith;
-                if(chatWith.contains(" ")) { errorDisplay("Invalid username (contain spaces) !"); return; }
-                if(openChats<6) {
-                    btnChat[openChats].setVisibility(View.VISIBLE);
-                    btnChat[openChats].setText(chatWith);
-                    chatPrefix = "/w " + chatWith + " ";
-                    btnChat[curChat].setBackgroundResource( R.drawable.button_background);
-                    btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
-                    curChat=openChats;
-                    txtChatLog.setText("");
-                    openChats += 1;
 
-                }
+                if(chatWith.contains(" ")) { errorDisplay("Invalid username (contain spaces) !"); return; }
+                if(openChats == 5) { errorDisplay("" + "Maximum chat tabs reached (5 private chats) !"); return; }
+                for(int i=openChats;i>0;i--) if(chatWith.equals(currentChats[i])) { btnChat[i].callOnClick(); return;}
+
+                openChats += 1;
+                currentChats[openChats]=chatWith;
+                btnChat[openChats].setVisibility(View.VISIBLE);
+                btnChat[openChats].setText(chatWith);
+                chatPrefix = "/w " + chatWith + " ";
+                btnChat[curChat].setBackgroundResource( R.drawable.button_background);
+                btnChat[openChats].setBackgroundResource(R.drawable.button_on_foreground);
+                curChat=openChats;
+                txtChatLog.setText("");
+
 
 
             }
@@ -322,10 +335,11 @@ public class Messaging extends Activity {
         input.requestFocus();
     }
 
-    void startNewChatWith(String name) {
+    void startNewChat(String name) {
         for(int i = openChats;i>0 ; i--)
             if(btnChat[i].getText().equals(name)) return;
-        if(openChats<6) {
+        if(openChats<5) {
+            openChats+=1;
             chatWith=name;
             btnChat[openChats].setVisibility(View.VISIBLE);
             btnChat[openChats].setText(chatWith);
