@@ -49,8 +49,111 @@
         <HorizontalScrollView
             android:id="@+id/hsv"
             android:layout_width="wrap_content"
-            android:layout_height="75dp">
+            android:layout_height="55dp"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="40dp">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="500dp"
+                android:layout_height="40dp"
+                android:id="@+id/linearLayout2"
+                android:layout_marginTop="5dp">
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/general"
+            android:id="@+id/btnGeneral"
+            android:textAllCaps="false"
+            android:background="@drawable/button_on_foreground"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/chat1"
+            android:id="@+id/btnChat1"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/chat2"
+            android:id="@+id/btnChat2"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/chat3"
+            android:id="@+id/btnChat3"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/chat4"
+            android:id="@+id/btnChat4"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/chat5"
+            android:id="@+id/btnChat5"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/accent_material_dark" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/plus"
+            android:id="@+id/btnPlus"
+            android:background="@drawable/button_background"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:textColor="@color/accent_material_dark" />
+
+            </LinearLayout>
         </HorizontalScrollView>
 
     <RelativeLayout
@@ -60,9 +163,8 @@
     android:weightSum="1"
     android:gravity="center_horizontal"
         android:layout_alignParentEnd="false"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/hsv">
 
 
         <ScrollView
@@ -129,110 +231,5 @@
 
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="500dp"
-        android:layout_height="40dp"
-        android:id="@+id/linearLayout2"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp">
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/general"
-    android:id="@+id/btnGeneral"
-    android:textAllCaps="false"
-    android:background="@drawable/button_on_foreground"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/chat1"
-    android:id="@+id/btnChat1"
-    android:textAllCaps="false"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:visibility="gone"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/chat2"
-    android:id="@+id/btnChat2"
-    android:textAllCaps="false"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:visibility="gone"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/chat3"
-    android:id="@+id/btnChat3"
-    android:textAllCaps="false"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:visibility="gone"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/chat4"
-    android:id="@+id/btnChat4"
-    android:textAllCaps="false"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:visibility="gone"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/chat5"
-    android:id="@+id/btnChat5"
-    android:textAllCaps="false"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:visibility="gone"
-    android:layout_marginRight="5dp"
-    android:textColor="@color/accent_material_dark" />
-
-<Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:text="@string/plus"
-    android:id="@+id/btnPlus"
-    android:background="@drawable/button_background"
-    android:paddingRight="8dp"
-    android:paddingLeft="8dp"
-    android:textColor="@color/accent_material_dark" />
-
-    </LinearLayout>
 
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class BtnListeners {
                             messaging.chatPrefix = "/w " + messaging.btnChat[cur].getText().toString() + " ";
                             messaging.txtChatLog.setText(messaging.chatLog[cur]);
                             messaging.btnChat[messaging.curChat].setBackgroundResource(R.drawable.button_background);
-                            messaging.btnChat[1].setBackgroundResource(R.drawable.button_on_foreground);
+                            messaging.btnChat[cur].setBackgroundResource(R.drawable.button_on_foreground);
                             messaging.curChat = cur;
                             messaging.chatWith = messaging.currentChats[cur];
                         }

@@ -173,8 +173,8 @@ public class Messaging extends Activity {
         chatWith=currentChats[curChat];
         btnChat[openChats].setVisibility(View.GONE);
         chatLog[openChats]= "";
-        currentChats[openChats]="";
-        openChats -=1;
+        currentChats[   openChats--  ]="";
+
     }
 
 // Start new chat tab open
@@ -199,8 +199,8 @@ public class Messaging extends Activity {
                 if(openChats == 5) { errorDisplay("" + "Maximum chat tabs reached (5 private chats) !"); return; }
                 for(int i=openChats;i>0;i--) if(chatWith.equals(currentChats[i])) { btnChat[i].callOnClick(); return;}
 
-                openChats += 1;
-                currentChats[openChats]=chatWith;
+
+                currentChats[ ++openChats ]=chatWith;
                 btnChat[openChats].setVisibility(View.VISIBLE);
                 btnChat[openChats].setText(chatWith);
                 chatPrefix = "/w " + chatWith + " ";
@@ -230,12 +230,12 @@ public class Messaging extends Activity {
         for(int i = openChats;i>0 ; i--)
             if(btnChat[i].getText().equals(name)) return;
         if(openChats<5) {
-            openChats+=1;
+
             chatWith=name;
-            btnChat[openChats].setVisibility(View.VISIBLE);
+            btnChat[ ++openChats ].setVisibility(View.VISIBLE);
             btnChat[openChats].setText(chatWith);
             btnChat[openChats].setBackgroundResource(R.drawable.button_on_new_chat);
-            openChats += 1;
+
         }
     }
 
